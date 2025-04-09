@@ -180,6 +180,16 @@ public class AdjacencyMatrixUndirectedGraph {
 		am.removeEdge(3,5);
 		System.out.println(am);
 		// A completer
+		int x = 8;
+		int y = 9;
+		System.out.println("======== Tests des méthodes ========");
+		System.out.println("isEdge("+x+", "+y+") ? " + am.isEdge(x, y));
+		System.out.println("addEdge("+x+", "+y+")");
+		am.addEdge(x, y);
+		System.out.println("isEdge("+x+", "+y+") ? " + am.isEdge(x, y));
+		System.out.println("removeEdge("+x+", "+y+")");
+		am.removeEdge(x,y);
+		System.out.println("isEdge("+x+", "+y+") ? " + am.isEdge(x, y));
 	}
 
 }

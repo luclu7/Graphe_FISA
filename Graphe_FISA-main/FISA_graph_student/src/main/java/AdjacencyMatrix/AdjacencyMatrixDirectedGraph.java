@@ -117,31 +117,49 @@ public class AdjacencyMatrixDirectedGraph {
 	 * @return true if the arc (from,to) exists in the graph.
  	 */
 	public boolean isArc(int from, int to) {
-		// A completer
-		return true;
+		if (from < 0 || from >= nbNodes || to < 0 || to >= nbNodes) {
+			return false;
+		}
+		return matrix[from][to] > 0;
 	}
 
 	/**
 	 * removes the arc (from,to) if there exists one between these nodes in the graph.
 	 */
 	public void removeArc(int from, int to) {
-		// A completer
+		if (from < 0 || from >= nbNodes || to < 0 || to >= nbNodes) {
+			return;
+		}
+		if (matrix[from][to] > 0) {
+			nbArcs -= matrix[from][to];
+			matrix[from][to] = 0;
+		}
 	}
 
 	/**
 	 * Adds the arc (from,to). 
 	 */
 	public void addArc(int from, int to) {
-		// A completer
+		if (from < 0 || from >= nbNodes || to < 0 || to >= nbNodes) {
+			return;
+		}
+		if (matrix[from][to] == 0) {
+			matrix[from][to] = 1;
+			nbArcs++;
+		}
 	}
 
 	/**
 	 * @return a new graph which is the inverse graph of this.matrix
  	 */
 	public AdjacencyMatrixDirectedGraph computeInverse() {
-		AdjacencyMatrixDirectedGraph amInv = new AdjacencyMatrixDirectedGraph(this.matrix);	
-		// A completer
-		return amInv;
+		int[][] inverseMatrix = new int[nbNodes][nbNodes];
+		for (int i = 0; i < nbNodes; i++) {
+			for (int j = 0; j < nbNodes; j++) {
+				inverseMatrix[j][i] = matrix[i][j];
+			}
+		}
+		return new AdjacencyMatrixDirectedGraph(inverseMatrix);
 	}
 
 	@Override

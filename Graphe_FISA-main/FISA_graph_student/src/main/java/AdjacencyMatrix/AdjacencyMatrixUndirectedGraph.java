@@ -82,7 +82,7 @@ public class AdjacencyMatrixUndirectedGraph {
 
 	/**
 	 * 
-	 * @param x the vertex selected
+	 * @param v the vertex selected
 	 * @return a list of vertices which are the neighbours of x
 	 */
 	public List<Integer> getNeighbours(int v) {
@@ -103,22 +103,26 @@ public class AdjacencyMatrixUndirectedGraph {
      	* @return true if the edge is in the graph.
      	*/
 	public boolean isEdge(int x, int y) {
-		// A completer
-		return true;		
+		return this.matrix[x][y] > 0;
 	}
 	
 	/**
      	* removes the edge (x,y) if there exists one between these nodes in the graph.
     	 */
 	public void removeEdge(int x, int y) {
-		// A completer
+		this.matrix[x][y] = 0;
+		this.nbEdges--;
 	}
 
 	/**
      	* adds the edge (x,y) if there is not already one.
      	*/
 	public void addEdge(int x, int y) {
-		// A completer
+		if(this.matrix[x][y] == 0){
+			this.matrix[x][y] = 1;
+			this.matrix[y][x] = 1;
+			this.nbEdges++;
+		}
 	}
 
 	

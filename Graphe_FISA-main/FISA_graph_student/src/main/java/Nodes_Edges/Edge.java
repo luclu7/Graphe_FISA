@@ -70,5 +70,5 @@ public class Edge extends AbstractEdgeArc {
 						 ((Edge) e).getFirstNode().equals(this.getSecondNode()) && ((Edge) e).getSecondNode().equals(this.getFirstNode())
 				);
 	}
-	
+
 }

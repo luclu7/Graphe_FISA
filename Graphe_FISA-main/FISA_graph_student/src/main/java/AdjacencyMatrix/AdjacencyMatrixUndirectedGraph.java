@@ -111,6 +111,7 @@ public class AdjacencyMatrixUndirectedGraph {
     	 */
 	public void removeEdge(int x, int y) {
 		this.matrix[x][y] = 0;
+		this.matrix[y][x] = 0;
 		this.nbEdges--;
 	}
 

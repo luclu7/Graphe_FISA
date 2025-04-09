@@ -193,7 +193,52 @@ public class AdjacencyMatrixDirectedGraph {
 		List<Integer> t2 = am.getPredecessors(2);
 		for (Integer integer : t2) {
 			System.out.print(integer + ", ");
+			}
+
+		System.out.println("\n\n--- Tests des méthodes ajoutées ---");
+
+		// Test isArc
+		int nodeFrom = 3;
+		int nodeTo = 5;
+
+		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo));
+
+		// Test addArc
+		System.out.println("addArc(" + nodeFrom + ", " + nodeTo + ")");
+		am.addArc(nodeFrom, nodeTo);
+		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo));
+
+		// Test removeArc
+		System.out.println("removeArc(" + nodeFrom + ", " + nodeTo + ")");
+		am.removeArc(nodeFrom, nodeTo);
+		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo));
+
+
+		// test matrix inverse
+		System.out.println("\n\n--- Test de la matrice inverse ---");
+		AdjacencyMatrixDirectedGraph inverseGraph = am.computeInverse();
+		System.out.println("Matrice inverse : \n" + inverseGraph);
+
+		if (am.getNbArcs() == inverseGraph.getNbArcs()) {
+			System.out.println("Le nombre d'arcs est le même dans les deux graphes");
+		} else {
+			System.out.println("Le nombre d'arcs est différent dans les deux graphes?");
 		}
-		// A completer
+
+		// test getSuccessors
+		System.out.println("\n\n--- Test de la méthode getSuccessors ---");
+		// get successors of node 2
+		int node = 2;
+		System.out.println("Successeurs du noeud " + node + " : ");
+		List<Integer> successors = inverseGraph.getSuccessors(node);
+		for (Integer successor : successors) {
+			System.out.print(successor + " ");
+		}
+
+		if (successors.equals(am.getPredecessors(node))) {
+			System.out.println("\nLes successeurs du noeud " + node + " dans le graphe original sont les prédécesseurs dans le graphe inverse: c'est bon !");
+		} else {
+			System.out.println("\nPas normal: Les successeurs du noeud " + node + " dans le graphe original ne sont pas les prédécesseurs dans le graphe inverse.");
+		}
 	}
 }

@@ -67,5 +67,4 @@ public class Arc extends AbstractEdgeArc {
 		return e instanceof AbstractEdgeArc &&
 				( ((Arc) e).getFirstNode().equals(this.getFirstNode()) && ((Arc) e).getSecondNode().equals(this.getSecondNode()) );
 	}
-
 }

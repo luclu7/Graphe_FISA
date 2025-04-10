@@ -245,7 +245,7 @@ public class AdjacencyMatrixDirectedGraph {
 		// visu !
 		System.out.println("\n\n--- Test avec visualiation ---");
 		DirectedGraphVisualizer visualizer = new DirectedGraphVisualizer(am.getMatrix());
-		visualizer.display();
+		visualizer.display("Adjacency Matrix Directed Graph");
 
 		Thread.sleep(3000);
 		// on supprime un arc

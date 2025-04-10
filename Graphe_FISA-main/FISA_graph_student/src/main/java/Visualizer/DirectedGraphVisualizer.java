@@ -34,7 +34,7 @@ public class DirectedGraphVisualizer extends VisualizerBase {
         int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, false, true, false, 100001);
         GraphTools.afficherMatrix(matrixValued);
         DirectedGraphVisualizer am = new DirectedGraphVisualizer(matrixValued);
-        am.display();
+        am.display("Directed Graph");
 
         // on attend un peu avant de remplacer le graph
         Thread.sleep(5000);

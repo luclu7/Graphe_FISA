@@ -35,7 +35,7 @@ public class UndirectedGraphVisualizer extends VisualizerBase {
         int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, true, false, false, 100001);
         GraphTools.afficherMatrix(matrixValued);
         UndirectedGraphVisualizer am = new UndirectedGraphVisualizer(matrixValued);
-        am.display();
+        am.display("Undirected Graph");
 
         Thread.sleep(5000);
 

@@ -30,14 +30,14 @@ abstract class VisualizerBase {
         }
     }
 
-    public void display() {
+    public void display(String title) {
         Platform.startup(() -> {
             this.graphView = new SmartGraphPanel<>(this.graph);
             SmartGraphDemoContainer container = new SmartGraphDemoContainer(this.graphView);
             Scene scene = new Scene(container, 1024, 768);
 
             this.stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Undirected Graph Visualization");
+            stage.setTitle(title);
             stage.setScene(scene);
             stage.show();
             graphView.init();

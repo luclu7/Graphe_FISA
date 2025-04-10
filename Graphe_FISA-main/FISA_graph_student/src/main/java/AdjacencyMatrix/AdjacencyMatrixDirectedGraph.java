@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import AdjacencyList.AdjacencyListDirectedGraph;
+import Visualizer.DirectedGraphVisualizer;
 
 /**
  * This class represents the directed graphs structured by an adjacency matrix.
@@ -175,7 +176,7 @@ public class AdjacencyMatrixDirectedGraph {
 		return s.toString();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		int[][] matrix2 = GraphTools.generateGraphData(10, 20, false, false, false, 100001);
 		AdjacencyMatrixDirectedGraph am = new AdjacencyMatrixDirectedGraph(matrix2);
 		System.out.println(am);
@@ -213,7 +214,6 @@ public class AdjacencyMatrixDirectedGraph {
 		am.removeArc(nodeFrom, nodeTo);
 		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo) + " (nb d'arcs: " + am.getNbArcs() + ")");
 
-
 		// test matrix inverse
 		System.out.println("\n\n--- Test de la matrice inverse ---");
 		AdjacencyMatrixDirectedGraph inverseGraph = am.computeInverse();
@@ -240,5 +240,19 @@ public class AdjacencyMatrixDirectedGraph {
 		} else {
 			System.out.println("\nPas normal: Les successeurs du noeud " + node + " dans le graphe original ne sont pas les prédécesseurs dans le graphe inverse.");
 		}
+
+
+		// visu !
+		System.out.println("\n\n--- Test avec visualiation ---");
+		DirectedGraphVisualizer visualizer = new DirectedGraphVisualizer(am.getMatrix());
+		visualizer.display();
+
+		Thread.sleep(3000);
+		// on supprime un arc
+		System.out.println("addArc("+ nodeFrom +", "+ nodeTo +")");
+		am.removeArc(nodeFrom, nodeTo);
+		visualizer.setGraph(am.getMatrix());
+
+
 	}
 }

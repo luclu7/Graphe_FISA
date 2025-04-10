@@ -131,7 +131,7 @@ public class AdjacencyMatrixDirectedGraph {
 			return;
 		}
 		if (matrix[from][to] > 0) {
-			nbArcs -= matrix[from][to];
+			nbArcs --;
 			matrix[from][to] = 0;
 		}
 	}
@@ -201,17 +201,17 @@ public class AdjacencyMatrixDirectedGraph {
 		int nodeFrom = 3;
 		int nodeTo = 5;
 
-		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo));
+		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo) + " (nb d'arcs: " + am.getNbArcs() + ")");
 
 		// Test addArc
 		System.out.println("addArc(" + nodeFrom + ", " + nodeTo + ")");
 		am.addArc(nodeFrom, nodeTo);
-		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo));
+		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo) + " (nb d'arcs: " + am.getNbArcs() + ")");
 
 		// Test removeArc
 		System.out.println("removeArc(" + nodeFrom + ", " + nodeTo + ")");
 		am.removeArc(nodeFrom, nodeTo);
-		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo));
+		System.out.println("isArc(" + nodeFrom + ", " + nodeTo + ") ? " + am.isArc(nodeFrom, nodeTo) + " (nb d'arcs: " + am.getNbArcs() + ")");
 
 
 		// test matrix inverse

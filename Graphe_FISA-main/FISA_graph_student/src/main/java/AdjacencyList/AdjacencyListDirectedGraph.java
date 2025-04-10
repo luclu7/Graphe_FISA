@@ -129,15 +129,20 @@ public class AdjacencyListDirectedGraph {
 	 * @return true if arc (from,to) exists in the graph
  	 */
     public boolean isArc(DirectedNode from, DirectedNode to) {
-    	// A completer
-    	return false;
+    	return this.arcs.contains(new Arc(from,to));
     }
 
     /**
 	 * Removes the arc (from,to), if it exists. And remove this arc and the inverse in the list of arcs from the two extremities (nodes)
  	 */
     public void removeArc(DirectedNode from, DirectedNode to) {
-    	// A completer
+    	if (isArc(from,to)){
+    		Arc arc = new Arc(from,to);
+    		this.arcs.remove(arc);
+            this.nbArcs++;
+            from.removeArc(arc);
+            to.removeArc(arc);
+        }
     }
 
     /**
@@ -146,7 +151,15 @@ public class AdjacencyListDirectedGraph {
   	* On non-valued graph, every arc has a weight equal to 0.
  	*/
     public void addArc(DirectedNode from, DirectedNode to) {
-    	// A completer
+    	if (!isArc(from, to)) {
+            Arc arc = new Arc(from,to);
+            this.arcs.add(arc);
+            this.nbArcs++;
+            from.addArc(arc);
+            to.addArc(arc);
+        } else {
+            System.out.println("Arc already exists: " + from + " -> " + to);
+        }
     }
 
     //--------------------------------------------------
@@ -165,7 +178,15 @@ public class AdjacencyListDirectedGraph {
      */
     public int[][] toAdjacencyMatrix() {
         int[][] matrix = new int[nbNodes][nbNodes];
-     // A completer
+        for (DirectedNode n1 : this.getNodes()) {
+            for (Arc a : n1.getArcSucc()) {
+                System.out.println(a);
+            }
+            for (Arc a : n1.getArcSucc()) {
+                DirectedNode n2 = a.getSecondNode();
+                matrix[n1.getLabel()][n2.getLabel()] = 1;
+            }
+        }
         return matrix;
     }
 
@@ -173,9 +194,31 @@ public class AdjacencyListDirectedGraph {
 	 * @return a new graph implementing IDirectedGraph interface which is the inverse graph of this
  	 */
     public AdjacencyListDirectedGraph computeInverse() {
-        AdjacencyListDirectedGraph g = new AdjacencyListDirectedGraph(this); // creation of a copy of the current graph. 
-        // A completer
-        return g;
+        AdjacencyListDirectedGraph inverseGraph = new AdjacencyListDirectedGraph();
+        
+        // ajouter tous les nodes (sans leurs arcs ! sinon on dupliquerait les arcs entre ceux inversés et non)
+        for (DirectedNode node : this.nodes) {
+            inverseGraph.nodes.add(new DirectedNode(node.getLabel()));
+        }
+        inverseGraph.nbNodes = this.nbNodes;
+        
+        // Ajouter les arcs inversés
+        for (Arc a : this.arcs) {
+            DirectedNode from = inverseGraph.nodes.get(a.getFirstNode().getLabel());
+            DirectedNode to = inverseGraph.nodes.get(a.getSecondNode().getLabel());
+            
+            // Créer l'arc inverse (to -> from)
+            Arc inverseArc = new Arc(to, from, a.getWeight());
+            inverseGraph.arcs.add(inverseArc);
+
+            to.addArc(inverseArc);
+            from.addArc(inverseArc);
+        }
+        
+        // Mettre à jour le nombre d'arcs
+        inverseGraph.nbArcs = this.nbArcs;
+        
+        return inverseGraph;
     }
     
     @Override
@@ -202,12 +245,48 @@ public class AdjacencyListDirectedGraph {
         return s.toString();
     }
 
+    void printArc(DirectedNode n1, DirectedNode n2) {
+        System.out.println("isArc(" + n1 + "," + n2 + ") = " + this.isArc(n1, n2) + " (nb d'arcs: " + this.getNbArcs() + ")");
+    }
+
     public static void main(String[] args) {
         int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, false, 100001);
         GraphTools.afficherMatrix(Matrix);
         AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
         System.out.println(al);
-        System.out.println("(n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        // A completer
+
+        DirectedNode n1 = al.nodes.get(7);
+        DirectedNode n2 = al.nodes.get(3);
+
+        // print adejcency matrix
+        System.out.println("Adjacency matrix:");
+        int[][] matrix = al.toAdjacencyMatrix();
+        GraphTools.afficherMatrix(matrix);
+
+        al.printArc(n1, n2);
+        System.out.println("removeArc(" + n1 + "," + n2 + ")");
+        al.removeArc(n1, n2);
+        al.printArc(n1, n2);
+        // print adejcency matrix
+
+        System.out.println("addArc(" + n1 + "," + n2 + ")");
+        al.addArc(n1, n2);
+        al.printArc(n1, n2);
+        System.out.println("Adjacency matrix:");
+        int[][] matrix2 = al.toAdjacencyMatrix();
+        GraphTools.afficherMatrix(matrix2);
+
+        System.out.println(al);
+
+
+
+        // inverse graph
+        System.out.println("Inverse graph:");
+        AdjacencyListDirectedGraph g = al.computeInverse();
+        System.out.println(g);
+
+        int[][] matrix3 = g.toAdjacencyMatrix();
+        GraphTools.afficherMatrix(matrix3);
     }
 }
+

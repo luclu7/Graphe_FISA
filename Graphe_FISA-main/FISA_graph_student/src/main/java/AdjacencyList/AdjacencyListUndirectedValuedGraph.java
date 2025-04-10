@@ -43,7 +43,13 @@ public class AdjacencyListUndirectedValuedGraph extends AdjacencyListUndirectedG
      * And adds this edge to the incident list of both extremities (nodes) and into the global list "edges" of the graph.
      */
     public void addEdge(UndirectedNode x, UndirectedNode y, int cost) {
-    	// A completer
+    	if (!this.edges.contains(new Edge(x, y))) {
+            Edge e1 = new Edge(x, y, cost);
+            x.addEdge(e1);
+            y.addEdge(new Edge(y, x, cost));
+            this.edges.add(e1);
+            this.nbEdges++;
+        }
     }
     
     
@@ -54,6 +60,13 @@ public class AdjacencyListUndirectedValuedGraph extends AdjacencyListUndirectedG
         AdjacencyListUndirectedValuedGraph al = new AdjacencyListUndirectedValuedGraph(matrixValued);
         System.out.println(al);
         System.out.println("Does edge (n_5,n_6) exist ? "+ al.getEdges().contains(new Edge(al.getNodes().get(6),al.getNodes().get(5))));
-        // A completer
+        // ajoutons une arête (0,1) de valeur 5
+        al.addEdge(al.getNodes().get(0), al.getNodes().get(1), 5);
+        System.out.println(al);
+
+        // ajoutons une arête (5,2) de valeur 10
+        al.addEdge(al.getNodes().get(5), al.getNodes().get(2), 10);
+        System.out.println(al);
+
     }
 }

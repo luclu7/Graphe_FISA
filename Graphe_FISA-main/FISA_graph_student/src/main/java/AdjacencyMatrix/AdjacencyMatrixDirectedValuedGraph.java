@@ -29,7 +29,7 @@ public class AdjacencyMatrixDirectedValuedGraph extends AdjacencyMatrixDirectedG
      * adds the arc (from,to,cost). If there is already one initial cost, we replace it.
      */	
 	public void addArc(int from, int to, int cost ) {
-		// A completer
+		this.matrix[from][to] = cost;
 	}
 
 	
@@ -52,5 +52,17 @@ public class AdjacencyMatrixDirectedValuedGraph extends AdjacencyMatrixDirectedG
 		AdjacencyMatrixDirectedValuedGraph am = new AdjacencyMatrixDirectedValuedGraph(matrixValued);
 		System.out.println(am);
 		// A completer
+
+		// ajoutons un arc (0,1) de valeur 5
+		am.addArc(0, 1, 5);
+		System.out.println(am);
+		// ajoutons un arc (0,1) de valeur 10
+		am.addArc(0, 1, 10);
+		// ça devrait avoir overwrite
+		System.out.println(am);
+
+		am.addArc(1, 0, 50);
+		System.out.println(am);
+
 	}
 }

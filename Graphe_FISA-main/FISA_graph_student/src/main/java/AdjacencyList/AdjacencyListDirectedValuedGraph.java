@@ -44,7 +44,13 @@ public class AdjacencyListDirectedValuedGraph extends AdjacencyListDirectedGraph
      * And adds this arc to the incident list of both extremities (nodes) and into the global list "arcs" of the graph.
      */
     public void addArc(DirectedNode from, DirectedNode to, int cost) {
-    	// A completer      
+        if (!this.arcs.contains(new Arc(from, to))) {
+            Arc a1 = new Arc(from, to, cost);
+            from.addArc(a1);
+            to.addArc(a1);
+            this.arcs.add(a1);
+            this.nbArcs++;
+        }
     }
     
     
@@ -55,7 +61,18 @@ public class AdjacencyListDirectedValuedGraph extends AdjacencyListDirectedGraph
         GraphTools.afficherMatrix(matrixValued);
         AdjacencyListDirectedValuedGraph al = new AdjacencyListDirectedValuedGraph(matrixValued);
         System.out.println(al);        
-        // A completer
+
+        // ajoutons un arc (0,1) de valeur 5
+        DirectedNode n1 = al.getNodes().get(0);
+        DirectedNode n2 = al.getNodes().get(1);
+
+
+        al.addArc(n1, n2, 5);
+        System.out.println(al);
+
+        // ajoutons un arc (0,1) de valeur 10
+        al.addArc(n2, n1, 10);
+        System.out.println(al);
     }
 	
 }

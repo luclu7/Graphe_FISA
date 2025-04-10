@@ -30,7 +30,8 @@ public class AdjacencyMatrixUndirectedValuedGraph extends AdjacencyMatrixUndirec
      * adds the edge (x,y,cost). If there is already one initial cost, we replace it.
      */
 	public void addEdge(int x, int y, int cost ) {
-		// A completer
+		this.matrix[x][y] = cost;
+		this.matrix[y][x] = cost;
 	}
 	
 	public String toString() {
@@ -50,7 +51,17 @@ public class AdjacencyMatrixUndirectedValuedGraph extends AdjacencyMatrixUndirec
 		int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, true, true, false, 100001);
 		AdjacencyMatrixUndirectedValuedGraph am = new AdjacencyMatrixUndirectedValuedGraph(matrixValued);
 		System.out.println(am);
-		// A completer
+
+		// ajoutons un arc (0,1) de valeur 5
+		am.addEdge(0, 1, 5);
+		System.out.println(am);
+		// ajoutons un arc (0,1) de valeur 10
+		am.addEdge(0, 1, 10);
+		// ça devrait avoir overwrite
+		System.out.println(am);
+
+		am.addEdge(1, 0, 50);
+		System.out.println(am);
 	}
 
 }

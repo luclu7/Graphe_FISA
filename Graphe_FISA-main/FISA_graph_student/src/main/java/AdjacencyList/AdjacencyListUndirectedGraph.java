@@ -120,8 +120,7 @@ public class AdjacencyListUndirectedGraph {
      * @return true if there is an edge between x and y
      */
     public boolean isEdge(UndirectedNode x, UndirectedNode y) {      	
-        // A completer
-    	return true;
+         return this.getEdges().contains(new Edge(x,y));
     }
 
     /**
@@ -129,7 +128,8 @@ public class AdjacencyListUndirectedGraph {
      */
     public void removeEdge(UndirectedNode x, UndirectedNode y) {
     	if(isEdge(x,y)){
-    		// A completer
+            this.edges.remove(new Edge(x,y));
+            this.nbEdges--;
     	}
     }
 
@@ -140,7 +140,8 @@ public class AdjacencyListUndirectedGraph {
      */
     public void addEdge(UndirectedNode x, UndirectedNode y) {
     	if(!isEdge(x,y)){
-    		// A completer
+            this.edges.add(new Edge(x,y));
+    		this.nbEdges++;
     	}
     }
 
@@ -162,7 +163,10 @@ public class AdjacencyListUndirectedGraph {
      */
     public int[][] toAdjacencyMatrix() {
         int[][] matrix = new int[nbNodes][nbNodes];
-        // A completer
+        for (Edge e : this.edges) {
+            matrix[e.getFirstNode().getLabel()][e.getSecondNode().getLabel()] = 1;
+            matrix[e.getSecondNode().getLabel()][e.getFirstNode().getLabel()] = 1;
+        }
         return matrix;
     }
 
@@ -186,15 +190,40 @@ public class AdjacencyListUndirectedGraph {
         return s.toString();
     }
 
+    void printEdge(int firstNode, int secondNode) {
+        System.out.println("isEdge(" + firstNode + "," + secondNode + ") = " + this.isEdge(this.getNodes().get(firstNode), this.getNodes().get(secondNode)) + " (nb d'edges: " + this.getNbEdges() + ")");
+    }
+
     public static void main(String[] args) {
         int[][] mat = GraphTools.generateGraphData(10, 20, false, true, false, 100001);
         GraphTools.afficherMatrix(mat);
         AdjacencyListUndirectedGraph al = new AdjacencyListUndirectedGraph(mat);
         System.out.println(al);        
-        System.out.println("(n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
-        
-        
-        // A completer
+
+        int firstNode = 2;
+        int secondNode = 5;
+
+        al.printEdge(firstNode, secondNode);
+        // il n'existe pas donc ajoutons le
+        System.out.println("addEdge(" + firstNode + "," + secondNode + ")");
+        al.addEdge(al.getNodes().get(firstNode), al.getNodes().get(secondNode));
+        al.printEdge(firstNode, secondNode);
+        System.out.println("removeEdge(" + firstNode + "," + secondNode + ")");
+        al.removeEdge(al.getNodes().get(firstNode), al.getNodes().get(secondNode));
+        al.printEdge(firstNode, secondNode);
+
+        System.out.println();
+
+        int[][] mat2 = al.toAdjacencyMatrix();
+        GraphTools.afficherMatrix(mat2);
+
+        System.out.println("addEdge(" + firstNode + "," + secondNode + ")");
+        al.addEdge(al.getNodes().get(firstNode), al.getNodes().get(secondNode));
+
+        System.out.println("al.toAdjacencyMatrix() : ");
+        int[][] mat3 = al.toAdjacencyMatrix();
+        GraphTools.afficherMatrix(mat3);
+
     }
 
 }

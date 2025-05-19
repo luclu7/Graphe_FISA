@@ -11,20 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 16
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '16'
         distribution: 'temurin'
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file Graphe_FISA-main/FISA_graph_student/pom.xml
 
     - name: Upload JAR artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Framework-Graph
-        path: target/Framework-Graph-1.0.jar
+        path: Graphe_FISA-main/FISA_graph_student/target/Framework-Graph-1.0.jar

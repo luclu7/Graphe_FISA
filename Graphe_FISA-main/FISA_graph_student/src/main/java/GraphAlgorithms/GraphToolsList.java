@@ -57,22 +57,30 @@ public class GraphToolsList  extends GraphTools {
 			AdjacencyMatrixDirectedGraph matrix = new AdjacencyMatrixDirectedGraph(graph.toAdjacencyMatrix());
 			for (Integer i : matrix.getPredecessors(s)){
 				if (!visited[i]) {
-					fifo.add(i);
 					visited[i] = true;
+					fifo.add(i);
 				}
 			}
 		}
 		return nodes;
 	}
 
+	public static List<Integer> explorerGraphe(AdjacencyListDirectedGraph graph) {
+		return new ArrayList<Integer>();
+	}
 
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
-		GraphTools.afficherMatrix(Matrix);
+		//GraphTools.afficherMatrix(Matrix);
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
-		System.out.println(al);
+		//System.out.println(al);
 
 		// A completer
-		System.out.println(BFS(al));
+		List<Integer> result = BFS(al);
+		String resultString = "";
+		for (Integer s : result) {
+			resultString += s + " ";
+		}
+		System.out.println(resultString);
 	}
 }

@@ -10,7 +10,7 @@ import AdjacencyList.AdjacencyListUndirectedValuedGraph;
 import AdjacencyMatrix.AdjacencyMatrixDirectedGraph;
 import Collection.Triple;
 import Nodes_Edges.DirectedNode;
-import Nodes_Edges.UndirectedNode;
+import Nodes_Edges.Arc;
 
 public class GraphToolsList  extends GraphTools {
 
@@ -41,32 +41,51 @@ public class GraphToolsList  extends GraphTools {
 	// ------------------------------------------
 
 	// A completer
-	public static List<Integer> BFS(AdjacencyListDirectedGraph graph) {
+	public List<DirectedNode> BFS(AdjacencyListDirectedGraph graph) {
 		boolean[] visited = new boolean[graph.getNbNodes()];
 		Arrays.fill(visited, false);
-		Queue<Integer> fifo = new LinkedList<>();
-		List<Integer> nodes = new ArrayList<>();
+		Queue<DirectedNode> fifo = new LinkedList<>();
+		List<DirectedNode> nodes = new ArrayList<>();
 
-		int s = 0;
+		DirectedNode s = graph.getNodes().get(0);
 		fifo.add(s);
-		visited[s] = true;
+		visited[s.getLabel()] = true;
 
 		while (!fifo.isEmpty()) {
 			s = fifo.poll();
 			nodes.add(s);
-			AdjacencyMatrixDirectedGraph matrix = new AdjacencyMatrixDirectedGraph(graph.toAdjacencyMatrix());
-			for (Integer i : matrix.getPredecessors(s)){
-				if (!visited[i]) {
-					visited[i] = true;
-					fifo.add(i);
+			for (Arc arc : s.getArcSucc()) {
+				s = arc.getSecondNode();
+				if (!visited[s.getLabel()]) {
+					visited[s.getLabel()] = true;
+					fifo.add(s);
 				}
 			}
 		}
 		return nodes;
 	}
 
-	public static List<Integer> explorerGraphe(AdjacencyListDirectedGraph graph) {
-		return new ArrayList<Integer>();
+	public void explorerSommet(DirectedNode sommet, List<DirectedNode> atteints) {
+		atteints.add(sommet);
+		for (Arc arc : sommet.getArcSucc()) {
+			DirectedNode voisin = arc.getSecondNode();
+			if (!atteints.contains(voisin)) {
+				explorerSommet(voisin, atteints);
+			}
+		}
+	}
+
+	public List<DirectedNode> explorerGraphe(AdjacencyListDirectedGraph graph) {
+		List<DirectedNode> atteints = new ArrayList<DirectedNode>();
+		DirectedNode sommet = graph.getNodes().get(0);
+		atteints.add(sommet);
+		for (Arc arc : sommet.getArcSucc()) {
+			DirectedNode voisin = arc.getSecondNode();
+			if (!atteints.contains(voisin)) {
+				explorerSommet(voisin, atteints);
+			}
+		}
+		return atteints;
 	}
 
 	public static void main(String[] args) {
@@ -76,11 +95,17 @@ public class GraphToolsList  extends GraphTools {
 		//System.out.println(al);
 
 		// A completer
-		List<Integer> result = BFS(al);
-		String resultString = "";
-		for (Integer s : result) {
-			resultString += s + " ";
+		GraphToolsList gtl = new GraphToolsList();
+		System.out.println("BFS on the graph: ");
+		for (DirectedNode n : gtl.BFS(al)) {
+			System.out.print(n+" ");
 		}
-		System.out.println(resultString);
+		System.out.println("\nExpected: \nn_0 n_4 n_2 n_6 n_9 n_5 n_3 n_8 n_1");
+
+		System.out.println("\nDFS on the graph: ");
+		for (DirectedNode n : gtl.explorerGraphe(al)) {
+			System.out.print(n+" ");
+		}
+		System.out.println("\nExpected: \nn_0 n_4 n_2 n_6 n_9 n_5 n_3 n_8 n_1");
 	}
 }

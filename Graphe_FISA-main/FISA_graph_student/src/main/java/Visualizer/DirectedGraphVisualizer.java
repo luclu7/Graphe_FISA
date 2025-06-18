@@ -1,9 +1,10 @@
 package Visualizer;
 
-import GraphAlgorithms.GraphTools;
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Graph;
+
+import GraphAlgorithms.GraphTools;
 
 public class DirectedGraphVisualizer extends VisualizerBase {
 

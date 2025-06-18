@@ -1,12 +1,8 @@
 package AdjacencyList;
 
-import java.util.ArrayList;
-
 import GraphAlgorithms.GraphTools;
 import Nodes_Edges.Arc;
 import Nodes_Edges.DirectedNode;
-import Nodes_Edges.Edge;
-import Nodes_Edges.UndirectedNode;
 
 public class AdjacencyListDirectedValuedGraph extends AdjacencyListDirectedGraph {
 

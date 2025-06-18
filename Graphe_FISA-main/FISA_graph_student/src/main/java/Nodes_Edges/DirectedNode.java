@@ -1,10 +1,7 @@
 package Nodes_Edges;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class DirectedNode extends AbstractNode {
 

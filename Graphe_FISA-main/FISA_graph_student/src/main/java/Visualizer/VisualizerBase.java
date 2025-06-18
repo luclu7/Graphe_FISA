@@ -3,6 +3,7 @@ package Visualizer;
 import com.brunomnsilva.smartgraph.containers.SmartGraphDemoContainer;
 import com.brunomnsilva.smartgraph.graph.Graph;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
+
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

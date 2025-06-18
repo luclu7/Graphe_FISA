@@ -1,7 +1,5 @@
 package AdjacencyList;
 
-import java.util.ArrayList;
-
 import GraphAlgorithms.GraphTools;
 import Nodes_Edges.Edge;
 import Nodes_Edges.UndirectedNode;

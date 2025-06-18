@@ -1,14 +1,11 @@
 package AdjacencyMatrix;
 
 
-import GraphAlgorithms.GraphTools;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import AdjacencyList.AdjacencyListUndirectedGraph;
-import org.w3c.dom.Node;
+import GraphAlgorithms.GraphTools;
 
 /**
  * This class represents the undirected graphs structured by an adjacency matrix.

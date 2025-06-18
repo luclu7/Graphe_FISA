@@ -1,8 +1,9 @@
 package Visualizer;
 
-import GraphAlgorithms.GraphTools;
 import com.brunomnsilva.smartgraph.graph.Graph;
 import com.brunomnsilva.smartgraph.graph.GraphEdgeList;
+
+import GraphAlgorithms.GraphTools;
 
 public class UndirectedGraphVisualizer extends VisualizerBase {
 

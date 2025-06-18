@@ -3,13 +3,9 @@ package AdjacencyList;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import GraphAlgorithms.GraphTools;
 import Nodes_Edges.Arc;
 import Nodes_Edges.DirectedNode;
-import Nodes_Edges.Edge;
-import Nodes_Edges.UndirectedNode;
 
 
 

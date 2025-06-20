@@ -11,6 +11,7 @@ import AdjacencyMatrix.AdjacencyMatrixDirectedGraph;
 import Collection.Triple;
 import Nodes_Edges.DirectedNode;
 import Nodes_Edges.Arc;
+import Visualizer.DirectedGraphVisualizer;
 
 public class GraphToolsList  extends GraphTools {
 
@@ -47,7 +48,7 @@ public class GraphToolsList  extends GraphTools {
 		Queue<DirectedNode> fifo = new LinkedList<>();
 		List<DirectedNode> nodes = new ArrayList<>();
 
-		DirectedNode s = graph.getNodes().get(0);
+		DirectedNode s = graph.getNodes().get(5);
 		fifo.add(s);
 		visited[s.getLabel()] = true;
 
@@ -77,7 +78,7 @@ public class GraphToolsList  extends GraphTools {
 
 	public List<DirectedNode> explorerGraphe(AdjacencyListDirectedGraph graph) {
 		List<DirectedNode> atteints = new ArrayList<DirectedNode>();
-		DirectedNode sommet = graph.getNodes().get(0);
+		DirectedNode sommet = graph.getNodes().get(5);
 		atteints.add(sommet);
 		for (Arc arc : sommet.getArcSucc()) {
 			DirectedNode voisin = arc.getSecondNode();
@@ -89,7 +90,7 @@ public class GraphToolsList  extends GraphTools {
 	}
 
 	public static void main(String[] args) {
-		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
+		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100002);
 		//GraphTools.afficherMatrix(Matrix);
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
 		//System.out.println(al);
@@ -107,5 +108,7 @@ public class GraphToolsList  extends GraphTools {
 			System.out.print(n+" ");
 		}
 		System.out.println("\nExpected: \nn_0 n_4 n_2 n_6 n_9 n_5 n_3 n_8 n_1");
+		DirectedGraphVisualizer am = new DirectedGraphVisualizer(Matrix);
+		am.display("Directed Graph");
 	}
 }

@@ -2,10 +2,14 @@ package AdjacencyList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
+import AdjacencyMatrix.AdjacencyMatrixUndirectedGraph;
 import GraphAlgorithms.GraphTools;
 import Nodes_Edges.Edge;
 import Nodes_Edges.UndirectedNode;
+import org.w3c.dom.Node;
 
 
 public class AdjacencyListUndirectedGraph {
@@ -168,6 +172,40 @@ public class AdjacencyListUndirectedGraph {
             matrix[e.getSecondNode().getLabel()][e.getFirstNode().getLabel()] = 1;
         }
         return matrix;
+    }
+
+    public void Dijkstra(UndirectedNode sommet) {
+        boolean[] mark = new boolean[this.nbNodes];
+        int[] val = new int[this.nbNodes];
+        UndirectedNode[] pred = new UndirectedNode[this.nbNodes];
+        for (UndirectedNode s : this.getNodes()) {
+            mark[s.getLabel()] = false;
+            val[s.getLabel()] = Integer.MAX_VALUE/2;
+            pred[s.getLabel()] = null;
+        }
+        val[sommet.getLabel()] = 0;
+        pred[sommet.getLabel()] = sommet;
+        while (!IntStream.range(0, mark.length).allMatch(i -> mark[i])) {
+            int x = 0;
+            int min = Integer.MAX_VALUE/2;
+            for (int i=0;i<this.nbNodes-1;i++) {
+                if (!mark[i] && val[i] < min) {
+                    x = i;
+                    min = val[i];
+                }
+            }
+            if (min < Integer.MAX_VALUE/2) {
+                mark[x] = true;
+            }
+            UndirectedNode sommetX = this.getNodes().get(x);
+            AdjacencyMatrixUndirectedGraph matrix = new AdjacencyMatrixUndirectedGraph(this);
+            for (Integer i : matrix.getNeighbours(sommetX.getLabel())) {
+                if (!mark[i] && val[x] + matrix.getMatrix()[x][i] < val[i]){
+                    val[i] = val[x] + matrix.getMatrix()[x][i];
+                    pred[i] = sommetX;
+                }
+            }
+        }
     }
 
     

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import AdjacencyList.AdjacencyListUndirectedGraph;
+import org.w3c.dom.Node;
 
 /**
  * This class represents the undirected graphs structured by an adjacency matrix.

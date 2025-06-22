@@ -28,20 +28,52 @@ public class BinaryHeap {
     }
 
     public void insert(int element) {
-    	// A completer
+        if (pos >= nodes.length) {
+            resize();
+        }
+        nodes[pos] = element;
+        int current = pos;
+        while(current > 0) {
+            int parent = (current - 1) /2;
+            if (nodes[current] < nodes[parent]) {
+                swap(current, parent);
+                current = parent;
+            } else {
+                break;
+            }
+        }
+        pos++;
     }
 
     public int remove() {
-    	// A completer
-    	return 0;
+    	if (isEmpty()) {
+            throw new IllegalStateException("Heap is empty");
+        }
+        int removed = nodes[0];
+        pos--;
+        nodes[0] = nodes[pos];
+        nodes[pos] = Integer.MAX_VALUE;
+        int current = 0;
+        int child;
+        while ((child = getBestChildPos(current)) < pos) {
+            if (nodes[current] > nodes[child]) {
+                swap(current, child);
+                current = child;
+            } else {
+                break;
+            }
+        }
+    	return removed;
     }
 
     private int getBestChildPos(int src) {
         if (isLeaf(src)) { // the leaf is a stopping case, then we return a default value
             return Integer.MAX_VALUE;
         } else {
-        	// A completer
-        	return Integer.MAX_VALUE;
+            int left = 2*src+1;
+            int right = 2*src+2;
+            if (right >= pos) return left;
+        	return nodes[left] < nodes[right] ? left : right;
         }
     }
 
@@ -53,8 +85,8 @@ public class BinaryHeap {
 	 * 
 	 */	
     private boolean isLeaf(int src) {
-    	// A completer
-    	return false;
+    	int left = 2*src+1;
+    	return left >= pos;
     }
 
     private void swap(int father, int child) {
@@ -111,6 +143,14 @@ public class BinaryHeap {
      // A completer
         System.out.println("\n" + jarjarBin);
         System.out.println(jarjarBin.test());
+        System.out.println("\nTas après insertions :");
+        System.out.println(jarjarBin);
+        System.out.println("Test validité : " + jarjarBin.test());
+
+        System.out.println("\nSuppression des éléments dans l'ordre :");
+        while (!jarjarBin.isEmpty()) {
+            System.out.print(jarjarBin.remove() + " ");
+        }
     }
 
 }

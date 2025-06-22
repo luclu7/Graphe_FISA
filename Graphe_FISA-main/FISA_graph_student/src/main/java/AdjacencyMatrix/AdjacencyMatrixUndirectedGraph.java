@@ -2,10 +2,16 @@ package AdjacencyMatrix;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import AdjacencyList.AdjacencyListUndirectedGraph;
+import GraphAlgorithms.BinaryHeapEdge;
 import GraphAlgorithms.GraphTools;
+import Nodes_Edges.Edge;
+import Nodes_Edges.UndirectedNode;
+import javafx.scene.effect.Effect;
 
 /**
  * This class represents the undirected graphs structured by an adjacency matrix.
@@ -154,6 +160,40 @@ public class AdjacencyMatrixUndirectedGraph {
 		return s.toString();
 	}
 
+	public static List<Edge> prim(AdjacencyListUndirectedGraph graph, UndirectedNode start) {
+		Set<UndirectedNode> visited = new HashSet<>();
+		List<Edge> mst = new ArrayList<>();
+		BinaryHeapEdge heap = new BinaryHeapEdge();
+		visited.add(start);
+		for(Edge arete : graph.getEdges()) {
+			heap.insert(arete.getFirstNode(), arete.getSecondNode(), arete.getWeight());
+		}
+		while (!heap.isEmpty()) {
+			Edge minEdge = heap.remove();
+			UndirectedNode n1 = minEdge.getFirstNode();
+			UndirectedNode n2 = minEdge.getSecondNode();
+			if (visited.contains(n1) && visited.contains(n2)) continue;
+			UndirectedNode newNode = visited.contains(n1) ? n2 : n1;
+			mst.add(minEdge);
+			visited.add(newNode);
+			for (Edge arete : graph.getEdges()) {
+				UndirectedNode neighbor;
+				if (arete.getFirstNode().equals(start)) {
+					neighbor = arete.getFirstNode();
+				} else if (arete.getSecondNode().equals(start)) {
+					neighbor = arete.getSecondNode();
+				} else {
+					continue;
+				}
+				if (!visited.contains(neighbor)) {
+					heap.insert(arete.getFirstNode(), arete.getSecondNode(), arete.getWeight());
+				}
+			}
+		}
+
+		return mst;
+	}
+
 	public static void main(String[] args) {
 		int[][] mat2 = GraphTools.generateGraphData(10, 35, false, true, false, 100001);
 		AdjacencyMatrixUndirectedGraph am = new AdjacencyMatrixUndirectedGraph(mat2);
@@ -188,6 +228,5 @@ public class AdjacencyMatrixUndirectedGraph {
 		System.out.println("removeEdge("+x+", "+y+")");
 		am.removeEdge(x,y);
 		System.out.println("isEdge("+x+", "+y+") ? " + am.isEdge(x, y)+ " (nb d'edges: " + am.getNbEdges() + ")");;
-	}
-
+		}
 }

@@ -30,7 +30,18 @@ public class BinaryHeapEdge {
 	 * @param val the edge weight
 	 */
     public void insert(UndirectedNode from, UndirectedNode to, int val) {
-    	// To complete
+    	Edge arete = new Edge(from, to, val);
+		binh.add(arete);
+		int current = binh.size() - 1;
+		while (current > 0) {
+			int parent = (current-1)/2;
+			if (binh.get(current).getWeight() < binh.get(parent).getWeight()) {
+				swap(current, parent);
+				current = parent;
+			} else {
+				break;
+			}
+		}
     }
 
     
@@ -41,9 +52,24 @@ public class BinaryHeapEdge {
 	 * 
 	 */
     public Edge remove() {
-    	// To complete
-    	return null;
-        
+    	if (isEmpty()) {
+			throw new IllegalStateException("Heap is empty");
+		}
+		Edge min = binh.get(0);
+		int last = binh.size() - 1;
+		binh.set(0, binh.get(last));
+		binh.remove(last);
+		int current = 0;
+		int child;
+		while ((child = getBestChildPos(current)) < binh.size()) {
+			if (binh.get(current).getWeight() > binh.get(child).getWeight()) {
+				swap(current, child);
+				current = child;
+			} else {
+				break;
+			}
+		}
+    	return min;
     }
     
 
@@ -54,18 +80,19 @@ public class BinaryHeapEdge {
 	 * @return the index of the child edge with the least weight
 	 */
     private int getBestChildPos(int src) {
-    	int lastIndex = binh.size()-1; 
+    	int lastIndex = binh.size()-1;
+		int left = 2*src+1;
+		int right = 2*src+2;
         if (isLeaf(src)) { // the leaf is a stopping case, then we return a default value
             return Integer.MAX_VALUE;
         } else {
-        	// To complete
-        	return Integer.MAX_VALUE;
+        	if (right > lastIndex) return left;
+        	return binh.get(left).getWeight() < binh.get(right).getWeight() ? left : right;
         }
     }
 
     private boolean isLeaf(int src) {
-    	// A completer
-    	return false;
+    	return 2*src+1>binh.size();
     }
 
     
@@ -180,7 +207,11 @@ public class BinaryHeapEdge {
         // A completer
         System.out.println(jarjarBin);
         System.out.println(jarjarBin.test());
-    }
+		System.out.println("\nSuppression des éléments dans l'ordre :");
+		while (!jarjarBin.isEmpty()) {
+			System.out.println(jarjarBin.remove());
+		}
+	}
 
 }
 

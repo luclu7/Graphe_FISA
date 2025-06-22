@@ -174,7 +174,7 @@ public class AdjacencyListUndirectedGraph {
         return matrix;
     }
 
-    public void Dijkstra(UndirectedNode sommet) {
+    public void dijkstra(UndirectedNode sommet) {
         boolean[] mark = new boolean[this.nbNodes];
         int[] val = new int[this.nbNodes];
         UndirectedNode[] pred = new UndirectedNode[this.nbNodes];

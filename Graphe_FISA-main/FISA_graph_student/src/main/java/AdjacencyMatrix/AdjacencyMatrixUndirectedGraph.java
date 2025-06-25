@@ -190,7 +190,6 @@ public class AdjacencyMatrixUndirectedGraph {
 				}
 			}
 		}
-
 		return mst;
 	}
 
@@ -198,35 +197,51 @@ public class AdjacencyMatrixUndirectedGraph {
 		int[][] mat2 = GraphTools.generateGraphData(10, 35, false, true, false, 100001);
 		AdjacencyMatrixUndirectedGraph am = new AdjacencyMatrixUndirectedGraph(mat2);
 		System.out.println(am);
-		System.out.println("n = "+am.getNbNodes()+ "\nm = "+am.getNbEdges() +"\n");
-		
+		System.out.println("n = " + am.getNbNodes() + "\nm = " + am.getNbEdges() + "\n");
+
 		// Neighbours of vertex 2 :
 		System.out.println("Neighbours of vertex 2 : ");
 		List<Integer> t2 = am.getNeighbours(2);
 		for (Integer integer : t2) {
 			System.out.print(integer + ", ");
 		}
-		
+
 		// We add three edges {3,5} :
 		System.out.println("\n\nisEdge(3, 5) ? " + am.isEdge(3, 5));
-		for(int i = 0; i<3;i++)
+		for (int i = 0; i < 3; i++)
 			am.addEdge(3, 5);
-		
-		System.out.println("\n"+am);
-		
+
+		System.out.println("\n" + am);
+
 		System.out.println("\nAfter removing one edge {3,5} :");
-		am.removeEdge(3,5);
+		am.removeEdge(3, 5);
 		System.out.println(am);
 		// A completer
 		int x = 8;
 		int y = 9;
 		System.out.println("======== Tests des méthodes ========");
-		System.out.println("isEdge("+x+", "+y+") ? " + am.isEdge(x, y) + " (nb d'edges: " + am.getNbEdges() + ")");
-		System.out.println("addEdge("+x+", "+y+")");
+		System.out.println("isEdge(" + x + ", " + y + ") ? " + am.isEdge(x, y) + " (nb d'edges: " + am.getNbEdges() + ")");
+		System.out.println("addEdge(" + x + ", " + y + ")");
 		am.addEdge(x, y);
-		System.out.println("isEdge("+x+", "+y+") ? " + am.isEdge(x, y)+ " (nb d'edges: " + am.getNbEdges() + ")");;
-		System.out.println("removeEdge("+x+", "+y+")");
-		am.removeEdge(x,y);
-		System.out.println("isEdge("+x+", "+y+") ? " + am.isEdge(x, y)+ " (nb d'edges: " + am.getNbEdges() + ")");;
+		System.out.println("isEdge(" + x + ", " + y + ") ? " + am.isEdge(x, y) + " (nb d'edges: " + am.getNbEdges() + ")");
+		;
+		System.out.println("removeEdge(" + x + ", " + y + ")");
+		am.removeEdge(x, y);
+		System.out.println("isEdge(" + x + ", " + y + ") ? " + am.isEdge(x, y) + " (nb d'edges: " + am.getNbEdges() + ")");
+		;
+
+
+		AdjacencyListUndirectedGraph graph = new AdjacencyListUndirectedGraph(mat2);
+		List<Edge> mst = prim(graph, graph.getNodes().get(0)); // Replace 'YourClass' with actual class name
+
+		// Print the result
+		System.out.println("MST Edges:");
+		for (Edge e : mst) {
+			System.out.println(e.getFirstNode().getLabel() + " -- " + e.getWeight() + " -- " + e.getSecondNode().getLabel());
 		}
+
+		// Optionally verify total weight
+		int totalWeight = mst.stream().mapToInt(Edge::getWeight).sum();
+		System.out.println("Total MST Weight: " + totalWeight);
+	}
 }

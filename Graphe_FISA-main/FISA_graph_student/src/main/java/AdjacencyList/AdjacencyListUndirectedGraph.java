@@ -2,14 +2,11 @@ package AdjacencyList;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 
 import AdjacencyMatrix.AdjacencyMatrixUndirectedGraph;
 import GraphAlgorithms.GraphTools;
 import Nodes_Edges.Edge;
 import Nodes_Edges.UndirectedNode;
-import org.w3c.dom.Node;
 
 
 public class AdjacencyListUndirectedGraph {
@@ -23,7 +20,34 @@ public class AdjacencyListUndirectedGraph {
     protected int nbNodes; // number of nodes
     protected int nbEdges; // number of edges
 
-    
+    public record DijkstraResult(int[] distances, UndirectedNode[] predecessors) {
+
+        public int getDistance(int nodeIndex) {
+                return distances[nodeIndex];
+            }
+
+        public UndirectedNode getPredecessor(int nodeIndex) {
+                return predecessors[nodeIndex];
+            }
+
+        @Override
+            public String toString() {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Résultats de Dijkstra:\n");
+                for (int i = 0; i < distances.length; i++) {
+                    sb.append("Sommet ").append(i).append(": distance=").append(distances[i]);
+                    if (predecessors[i] != null) {
+                        sb.append(", prédécesseur=").append(predecessors[i].getLabel());
+                    } else {
+                        sb.append(", prédécesseur=<indéfini>");
+                    }
+                    sb.append("\n");
+                }
+                return sb.toString();
+            }
+        }
+
+
     //--------------------------------------------------
     // 				Constructors
     //--------------------------------------------------
@@ -174,38 +198,54 @@ public class AdjacencyListUndirectedGraph {
         return matrix;
     }
 
-    public void dijkstra(UndirectedNode sommet) {
+    public DijkstraResult dijkstra(UndirectedNode startNode) {
         boolean[] mark = new boolean[this.nbNodes];
         int[] val = new int[this.nbNodes];
         UndirectedNode[] pred = new UndirectedNode[this.nbNodes];
-        for (UndirectedNode s : this.getNodes()) {
-            mark[s.getLabel()] = false;
-            val[s.getLabel()] = Integer.MAX_VALUE/2;
-            pred[s.getLabel()] = null;
+
+        for (UndirectedNode node : this.getNodes()) {
+            int label = node.getLabel();
+            mark[label] = false;
+            val[label] = Integer.MAX_VALUE / 2;
+            pred[label] = null;
         }
-        val[sommet.getLabel()] = 0;
-        pred[sommet.getLabel()] = sommet;
-        while (!IntStream.range(0, mark.length).allMatch(i -> mark[i])) {
-            int x = 0;
-            int min = Integer.MAX_VALUE/2;
-            for (int i=0;i<this.nbNodes-1;i++) {
+
+        val[startNode.getLabel()] = 0;
+        pred[startNode.getLabel()] = startNode;
+
+        AdjacencyMatrixUndirectedGraph matrix = new AdjacencyMatrixUndirectedGraph(this); // à instancier UNE fois
+
+        while (true) {
+            // Trouver le sommet non marqué avec la plus petite distance
+            int x = -1;
+            int min = Integer.MAX_VALUE / 2;
+            for (int i = 0; i < this.nbNodes; i++) {
                 if (!mark[i] && val[i] < min) {
                     x = i;
                     min = val[i];
                 }
             }
-            if (min < Integer.MAX_VALUE/2) {
-                mark[x] = true;
+
+            // si aucun sommet n’est accessible ou tous sont marqués -> fin
+            if (x == -1) {
+                break;
             }
-            UndirectedNode sommetX = this.getNodes().get(x);
-            AdjacencyMatrixUndirectedGraph matrix = new AdjacencyMatrixUndirectedGraph(this);
-            for (Integer i : matrix.getNeighbours(sommetX.getLabel())) {
-                if (!mark[i] && val[x] + matrix.getMatrix()[x][i] < val[i]){
-                    val[i] = val[x] + matrix.getMatrix()[x][i];
-                    pred[i] = sommetX;
+
+            mark[x] = true;
+            UndirectedNode current = this.getNodes().get(x);
+
+            for (Integer neighbor : matrix.getNeighbours(x)) {
+                if (!mark[neighbor]) {
+                    int weight = matrix.getMatrix()[x][neighbor];
+                    if (val[x] + weight < val[neighbor]) {
+                        val[neighbor] = val[x] + weight;
+                        pred[neighbor] = current;
+                    }
                 }
             }
         }
+
+        return new DijkstraResult(val, pred);
     }
 
     
@@ -262,6 +302,12 @@ public class AdjacencyListUndirectedGraph {
         int[][] mat3 = al.toAdjacencyMatrix();
         GraphTools.afficherMatrix(mat3);
 
+
+        System.out.println("== Test Dijkstra ==");
+        DijkstraResult result = al.dijkstra(al.getNodes().get(0));
+        System.out.println(result);
+
+//        new UndirectedGraphVisualizer(mat3).display("Graph non dirigé");
     }
 
 }
